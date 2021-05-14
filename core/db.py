@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
+import os
+
 from viur.core.config import conf
 from viur.core import utils
 import logging
@@ -660,7 +663,12 @@ class Query(object):
 			qry.order = [x[0] if x[1] == SortOrder.Ascending else "-" + x[0] for x in query.orders]
 		qryRes = qry.fetch(limit=limit, start_cursor=query.startCursor, end_cursor=query.endCursor)
 		res = next(qryRes.pages)
-		query.currentCursor = qryRes.next_page_token
+		# query.currentCursor = qryRes.next_page_token
+		if os.getenv("GAE_ENV") == "localdev" and os.getenv("DATASTORE_EMULATOR_HOST"):
+			query.currentCursor = qryRes.next_page_token if query.startCursor != qryRes.next_page_token else None
+		else:
+			query.currentCursor = qryRes.next_page_token
+		logging.debug(("query", res,qryRes, "qryRes.pages", qryRes.next_page_token))
 		return res
 
 	def _mergeMultiQueryResults(self, inputRes: List[List[Entity]]) -> List[Entity]:
@@ -873,11 +881,21 @@ class Query(object):
 			raise StopIteration()
 		elif isinstance(self.queries, list):
 			raise ValueError("No iter on Multiqueries")
-		while True:
+		i = 0
+		while i<10:
+			i+=1
+			logging.debug(("iter 1", self.queries))
 			qryRes = self._runSingleFilterQuery(self.queries, 20)
+			logging.debug(("iter 2", qryRes))
 			yield from qryRes
+			logging.debug(("iter 3", qryRes))
+			logging.debug(("iter 4", self.queries.currentCursor))
 			if not self.queries.currentCursor:  # We reached the end of that query
 				break
+			# if not self.queries.currentCursor or self.queries.startCursor == self.queries.currentCursor:  # We reached the end of that query
+			# 	break
+			logging.debug(("iter 5", self.queries.startCursor))
+			logging.debug(("iter 6", self.queries.currentCursor))
 			self.queries.startCursor = self.queries.currentCursor
 
 	def getEntry(self) -> Union[None, Entity]:

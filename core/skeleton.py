@@ -882,31 +882,43 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
 				"Got an unsupported type %s for clearUpdateTag. toDB doesn't accept a key argument any more!" % str(
 					type(clearUpdateTag)))
 
+		logging.debug("toDb_5")
+
 		# Allow bones to perform outstanding "magic" operations before saving to db
 		for bkey, _bone in skelValues.items():
 			_bone.performMagic(skelValues, bkey, isAdd=isAdd)
+		logging.debug("toDb_6")
 
 		# Run our SaveTxn
 		if db.IsInTransaction():
+			logging.debug("toDb_7.1")
 			key, dbObj, skel, changeList = txnUpdate(key, skelValues, clearUpdateTag)
 		else:
+			logging.debug("toDb_7.2")
 			key, dbObj, skel, changeList = db.RunInTransaction(txnUpdate, key, skelValues, clearUpdateTag)
+		logging.debug("toDb_8")
 
 		# Perform post-save operations (postProcessSerializedData Hook, Searchindex, ..)
 		skelValues["key"] = key
 
 		for boneName, bone in skel.items():
+			logging.debug("Call postSavedHandler for %r", boneName)
 			bone.postSavedHandler(skel, boneName, key)
+			logging.debug("finished postSavedHandler for %r", boneName)
+		logging.debug("toDb_9")
 
 		skel.postSavedHandler(key, dbObj)
+		logging.debug("toDb_10")
 
 		if not clearUpdateTag and not isAdd:
 			updateRelations(key, time() + 1,
 							changeList if len(changeList) < 30 else None)
+		logging.debug("toDb_11")
 
 		# Inform the custom DB Adapter of the changes made to the entry
 		if skelValues.customDatabaseAdapter:
 			skelValues.customDatabaseAdapter.updateEntry(dbObj, skel, changeList, isAdd)
+		logging.debug("toDb_12")
 
 		return key
 

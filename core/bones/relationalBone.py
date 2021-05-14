@@ -333,17 +333,22 @@ class relationalBone(baseBone):
 		#	values = [dict((k, v) for k, v in skel[boneName].items())]
 		#else:
 		#	values = [dict((k, v) for k, v in x.items()) for x in skel[boneName]]
+		logging.debug("In rel.postSavedHandler for %s 1", boneName)
 		parentValues = db.Entity()
 		srcEntity = skel.dbEntity
 		parentValues.key = srcEntity.key
+		logging.debug("In rel.postSavedHandler for %s 2", boneName)
 		for boneKey in (self.parentKeys or []):
 			parentValues[boneKey] = srcEntity.get(boneKey)
+		logging.debug("In rel.postSavedHandler for %s 3", boneName)
 		dbVals = db.Query("viur-relations")
 		dbVals.filter("viur_src_kind =", skel.kindName)
 		dbVals.filter("viur_dest_kind =", self.kind)
 		dbVals.filter("viur_src_property =", boneName)
 		dbVals.filter("src.__key__ =", key)
+		logging.debug("In rel.postSavedHandler for %s 3a", boneName)
 		for dbObj in dbVals.iter():
+			logging.info("iter dbVals")
 			try:
 				if not dbObj["dest"].key in [x["dest"]["key"] for x in values]:  # Relation has been removed
 					db.Delete(dbObj.key)
@@ -367,6 +372,7 @@ class relationalBone(baseBone):
 				db.Put(dbObj)
 				values.remove(data)
 		# Add any new Relation
+		logging.debug("In rel.postSavedHandler for %s 4", boneName)
 		for val in values:
 			dbObj = db.Entity(db.Key("viur-relations", parent=key))
 			refSkel = val["dest"]

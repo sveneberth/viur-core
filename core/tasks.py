@@ -615,10 +615,12 @@ class QueryIter(object, metaclass=MetaQueryIter):
 			Internal use only. Pushes a new step defined in qryDict to either the taskqueue or append it to
 			the current request	if we are on the local development server.
 		"""
+		logging.debug(("_requeueStep", qryDict))
 		if not queueRegion:  # Run tasks inline - hopefully development server
 			req = currentRequest.get()
 			task = lambda *args, **kwargs: cls._qryStep(qryDict)
 			if req:
+				logging.debug(("req.pendingTasks.append", task))
 				req.pendingTasks.append(task)  # < This property will be only exist on development server!
 				return
 		project = utils.projectID
@@ -645,6 +647,7 @@ class QueryIter(object, metaclass=MetaQueryIter):
 		qry.queries.filters = qryDict["filters"]
 		qry.queries.orders = [(propName, db.SortOrder(sortOrder)) for propName, sortOrder in qryDict["orders"]]
 		qry.setCursor(qryDict["startCursor"], qryDict["endCursor"])
+		logging.debug(("_qryStep start", qryDict["startCursor"], qryDict["endCursor"]))
 		qry.origKind = qryDict["origKind"]
 		qry.queries.distinct = qryDict["distinct"]
 		if qry.srcSkel:
@@ -655,6 +658,7 @@ class QueryIter(object, metaclass=MetaQueryIter):
 			try:
 				cls.handleEntry(item, qryDict["customData"])
 			except:  # First exception - we'll try another time (probably/hopefully transaction collision)
+				logging.exception("err in handle")
 				sleep(5)
 				try:
 					cls.handleEntry(item, qryDict["customData"])
@@ -669,6 +673,8 @@ class QueryIter(object, metaclass=MetaQueryIter):
 						logging.error("Exiting queryItor on cursor %s" % qry.getCursor())
 						return
 			qryDict["totalCount"] += 1
+
+		logging.debug(("_qryStep end", qryDict["startCursor"], qryDict["endCursor"], qry.getCursor()))
 		cursor = qry.getCursor()
 		if cursor:
 			qryDict["startCursor"] = cursor

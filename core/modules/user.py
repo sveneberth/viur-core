@@ -146,10 +146,12 @@ class UserPassword(object):
 		name = name.lower().strip()
 		query = db.Query(self.userModule.viewSkel().kindName)
 		res = query.filter("name.idx >=", name).getEntry()
+		logging.debug("user.res: %r", res)
 
 		if res is None:
 			res = {"password": {"pwhash": "-invalid-", "salt": "-invalid"}, "status": 0, "name": {}}
-
+		# logging.debug("Delete: %r", db.Delete(res))
+		# logging.debug("Delete: %r", db.Delete(res))
 		passwd = pbkdf2(password[:conf["viur.maxPasswordLength"]], (res.get("password", None) or {}).get("salt", ""))
 		isOkay = True
 
@@ -163,6 +165,7 @@ class UserPassword(object):
 			for x, y in zip(storedUserName, name):
 				if x != y:
 					isOkay = False
+		logging.debug("user.isOkay1: %r", isOkay)
 
 		# Check if the password matches
 		storedPasswordHash = (res.get("password", None) or {}).get("pwhash", "-invalid-")
@@ -172,6 +175,7 @@ class UserPassword(object):
 			for x, y in zip(storedPasswordHash, passwd):
 				if x != y:
 					isOkay = False
+		logging.debug("user.isOkay2: %r", isOkay)
 
 		accountStatus: Optional[int] = None
 		# Verify that this account isn't blocked
@@ -181,6 +185,7 @@ class UserPassword(object):
 				# (ie account locked or email verification pending)
 				accountStatus = res["status"]
 			isOkay = False
+		logging.debug("user.isOkay3: %r", isOkay)
 
 		if not isOkay:
 			skel = self.loginSkel()

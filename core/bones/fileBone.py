@@ -118,13 +118,18 @@ class fileBone(treeLeafBone):
 		return None
 
 	def postSavedHandler(self, skel, boneName, key):
+		logging.debug("In postSavedHandler for %s 1", boneName)
 		super().postSavedHandler(skel, boneName, key)
+		logging.debug("In postSavedHandler for %s 2", boneName)
 		values = skel[boneName]
 		if self.derive and values:
+			logging.debug("In postSavedHandler for %s 3", boneName)
 			if isinstance(values, dict):
 				values = [values]
 			for val in values:  # Ensure derives getting build for each file referenced in this relation
+				logging.debug("In postSavedHandler for %s 4", boneName)
 				ensureDerived(val["dest"]["key"], "%s_%s" % (skel.kindName, boneName), self.derive)
+				logging.debug("In postSavedHandler for %s 5", boneName)
 
 	def getReferencedBlobs(self, skel, name):
 		val = skel[name]

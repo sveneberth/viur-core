@@ -246,6 +246,7 @@ class List(BasicApplication):
 		:raises: :exc:`server.errors.Unauthorized`, if the current user does not have the required permissions.
 		:raises: :exc:`server.errors.PreconditionFailed`, if the *skey* could not be verified.
 		"""
+		logging.debug(("add_0", args, kwargs))
 		if "skey" in kwargs:
 			skey = kwargs["skey"]
 		else:
@@ -263,10 +264,13 @@ class List(BasicApplication):
 			return self.render.add(skel)
 		if not securitykey.validate(skey, useSessionKey=True):
 			raise errors.PreconditionFailed()
-
+		logging.debug(("add_1", skel))
 		self.onAdd(skel)
+		logging.debug(("add_2", skel))
 		skel.toDB()
+		logging.debug(("add_3", skel))
 		self.onAdded(skel)
+		logging.debug(("add_4", skel))
 
 		return self.render.addSuccess(skel)
 
