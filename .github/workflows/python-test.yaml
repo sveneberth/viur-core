@@ -35,12 +35,14 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd viur
           python -m pip install --upgrade pip
           if [ -f tests/requirements.txt ]; then python -m pip install -r tests/requirements.txt; fi
 
       - name: Check env
         run: |
           pwd
+          cd viur
           git status
           git submodule status
           python -V
