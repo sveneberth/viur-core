@@ -24,7 +24,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-#        with:
+        with:
+          path: viur
 #          submodules: "recursive"
 
       - name: Set up Python ${{ matrix.python }}
@@ -34,16 +35,18 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd viur
           python -m pip install --upgrade pip
           if [ -f tests/requirements.txt ]; then python -m pip install -r tests/requirements.txt; fi
 
       - name: Check env
         run: |
+          cd viur
           git status
           git submodule status
           python -V
 
       - name: Run the tests
         run: |
-          python ./tests/main.py
+          python ./viur/tests/main.py
           echo $?
