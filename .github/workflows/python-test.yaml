@@ -49,5 +49,5 @@ jobs:
 
       - name: Run the tests
         run: |
-          python ./tests/main.py
+          python ./viur/tests/main.py
           echo $?
