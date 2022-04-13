@@ -72,6 +72,7 @@ if __name__ == "__main__":
 	monkeyPatch()
 
 	original_cwd = os.getcwd()
+	print(f"{original_cwd=}")
 
 	# top_level_dir is the parent-folder of "tests" and "core"
 	tld = pathlib.Path(__file__).resolve().parent.parent
@@ -80,6 +81,8 @@ if __name__ == "__main__":
 	# Otherwise the core fails on skeleton.searchPath validation
 	# os.chdir("/home/sven/mb/projects/viur/viur3-test-se/deploy")
 	os.chdir(pathlib.Path(__file__).resolve().parent.parent.parent)
+
+	print(f"changed to {os.getcwd()=}")
 
 	# Create and register a dummy module as ViUR namespace
 	m = ModuleType("viur")

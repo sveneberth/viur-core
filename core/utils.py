@@ -31,7 +31,8 @@ versionHash = "".join([x for x in versionHash if x in string.digits+string.ascii
 projectBasePath = str(Path().absolute())
 coreBasePath = globals()["__file__"].replace("/viur/core/utils.py","")
 isLocalDevelopmentServer = os.environ['GAE_ENV'] == "localdev"
-
+print(f"{projectBasePath=}")
+print(f"{coreBasePath=}")
 
 def utcNow():
 	return datetime.now(timezone.utc)
