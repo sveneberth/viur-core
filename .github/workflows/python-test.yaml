@@ -24,7 +24,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-#        with:
+        with:
+          path: 'viur'
 #          submodules: "recursive"
 
       - name: Set up Python ${{ matrix.python }}
@@ -39,6 +40,7 @@ jobs:
 
       - name: Check env
         run: |
+          pwd
           git status
           git submodule status
           python -V
