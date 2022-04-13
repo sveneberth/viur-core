@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
+import importlib.util
 import os
 import pathlib
 import sys
 import unittest
+from types import ModuleType
 from unittest import mock
 
-import importlib
-import importlib.util
-
-from types import ModuleType
-
-import sys
 
 def monkeyPatch():
 	"""Monkey patch libs to work without google cloud environment"""
@@ -78,7 +74,6 @@ if __name__ == "__main__":
 
 	# Change the current working dir to the parent of viur/core
 	# Otherwise the core fails on skeleton.searchPath validation
-	# os.chdir("/home/sven/mb/projects/viur/viur3-test-se/deploy")
 	os.chdir(pathlib.Path(__file__).resolve().parent.parent.parent)
 
 	# Create and register a dummy module as ViUR namespace
