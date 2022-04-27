@@ -10,7 +10,7 @@ class TestStringBone(unittest.TestCase):
 		from viur.core.bones import stringBone
 		self._run_tests(bone := stringBone(descr="empty_str"))
 		self.assertEqual("", bone.getEmptyValue())
-		self.assertEqual("", bone.defaultValue)
+		self.assertIsNone(bone.defaultValue)
 
 	def _run_tests(self, bone):
 		# print(bone)
