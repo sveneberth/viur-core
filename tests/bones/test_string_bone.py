@@ -4,6 +4,8 @@ import unittest
 class TestStringBone(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls) -> None:
+		from main import monkey_patch
+		monkey_patch()
 		cls.bone_name = "myStringBone"
 
 	def test_isEmpty_default_bone(self):
@@ -27,6 +29,8 @@ class TestStringBone(unittest.TestCase):
 class TestStringBone_setBoneValue(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls) -> None:
+		from main import monkey_patch
+		monkey_patch()
 		cls.bone_name = "myStringBone"
 
 	def test_setBoneValue_single(self):
@@ -67,6 +71,8 @@ class TestStringBone_setBoneValue(unittest.TestCase):
 class TestStringBone_fromClient(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls) -> None:
+		from main import monkey_patch
+		monkey_patch()
 		cls.bone_name = "myStringBone"
 
 	def test_fromClient_single(self):

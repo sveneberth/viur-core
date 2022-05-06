@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
+from unittest import mock
+
 import importlib.util
 import os
 import pathlib
 import sys
 import unittest
 from types import ModuleType
-from unittest import mock
+
+# top_level_dir is the parent-folder of "tests" and "core"
+tld = pathlib.Path(__file__).resolve().parent.parent
 
 
-def monkeyPatch():
+def monkey_patch():
 	"""Monkey patch libs to work without google cloud environment"""
 	import sys
 
@@ -63,10 +67,6 @@ def monkeyPatch():
 	os.environ["GAE_VERSION"] = "v42"
 	os.environ["GAE_ENV"] = "unittestenv"
 
-
-if __name__ == "__main__":
-	monkeyPatch()
-
 	original_cwd = os.getcwd()
 
 	# top_level_dir is the parent-folder of "tests" and "core"
@@ -89,6 +89,10 @@ if __name__ == "__main__":
 
 	# Change back the cwd for the unittests
 	os.chdir(original_cwd)
+
+
+if __name__ == "__main__":
+	monkey_patch()
 
 	# initialize the test suite
 	loader = unittest.TestLoader()

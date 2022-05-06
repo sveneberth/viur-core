@@ -2,6 +2,10 @@ import unittest
 
 
 class TestUtils(unittest.TestCase):
+	@classmethod
+	def setUpClass(cls) -> None:
+		from main import monkey_patch
+		monkey_patch()
 
 	def test_escapeString(self):
 		from viur.core.utils import escapeString

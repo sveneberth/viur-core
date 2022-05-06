@@ -2,6 +2,10 @@ import unittest
 
 
 class TestNumericBone(unittest.TestCase):
+	@classmethod
+	def setUpClass(cls) -> None:
+		from main import monkey_patch
+		monkey_patch()
 
 	def test_isEmpty_default_bone(self):
 		from viur.core.bones import numericBone
