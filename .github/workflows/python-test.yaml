@@ -57,6 +57,11 @@ jobs:
           coverage report
           coverage html
 
+      - name: Check
+        run: |
+          pwd
+          ls viur
+
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
         # TODO: should be later only main, or the target must be a different branch
