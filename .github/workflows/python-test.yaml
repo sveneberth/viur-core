@@ -69,8 +69,9 @@ jobs:
           ls /home/runner/work -lHFA
           ls /home/runner/work/viur-core -lHFA
           ls /home/runner/work/viur-core/viur-core -lHFA
-          ls /home/runner/work/viur-core/viur-core/tests -lHFA
-          ls /home/runner/work/viur-core/viur-core/tests/htmlcov -lHFA
+          ls /home/runner/work/viur-core/viur-core/viur -lHFA
+          ls /home/runner/work/viur-core/viur-core/viur/tests -lHFA
+          ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
 
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
