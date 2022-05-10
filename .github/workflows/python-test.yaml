@@ -96,6 +96,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          known_hosts: ''
 
       - name: Deploy
         if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
