@@ -63,9 +63,8 @@ jobs:
       - name: Check
         run: |
           pwd
+          ls .
           ls viur
-          ls viur/tests
-          ls viur/tests/htmlcov
 
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
@@ -74,7 +73,7 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           #github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: tests/htmlcov
+          publish_dir: viur/tests/htmlcov
           publish_branch: coverage-html
           allow_empty_commit: true
           #force_orphan: true
