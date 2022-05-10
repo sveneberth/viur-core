@@ -94,6 +94,7 @@ jobs:
 
 
     - name: Deploy
+      if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
       run: |
         git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git -b coverage-html /home/runner/work/pages
         cd /home/runner/work/pages
@@ -110,10 +111,10 @@ jobs:
         git commit -asm "GitHub Page Build for ${{ github.sha }}" --allow-empty
         git push origin coverage-html
 
-      - name: Check
-        run: |
-          pwd
-          ls . -lHFA
-          ls viur -lHFA
-          ls /home/runner/ -lHFA
-          ls /home/runner/actions_github_page* -lHFA
+    - name: Check
+      run: |
+        pwd
+        ls . -lHFA
+        ls viur -lHFA
+        ls /home/runner/ -lHFA
+        ls /home/runner/actions_github_page* -lHFA
