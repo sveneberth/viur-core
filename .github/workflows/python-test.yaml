@@ -63,8 +63,9 @@ jobs:
       - name: Check
         run: |
           pwd
-          ls .
-          ls viur
+          ls . -lHFA
+          ls viur -lHFA
+          ls /home/runner/ -lHFA
 
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
@@ -77,3 +78,10 @@ jobs:
           publish_branch: coverage-html
           allow_empty_commit: true
           #force_orphan: true
+
+      - name: Check
+        run: |
+          pwd
+          ls . -lHFA
+          ls viur -lHFA
+          ls /home/runner/ -lHFA
