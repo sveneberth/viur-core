@@ -99,7 +99,7 @@ jobs:
           git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git -b coverage-html /home/runner/work/pages
           cd /home/runner/work/pages
           git status
-          git rm *
+          git rm --ignore-unmatch *
           cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov .
           git add -A
 
