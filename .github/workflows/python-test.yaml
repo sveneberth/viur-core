@@ -1,11 +1,7 @@
 name: Python test
 
 on:
-  push:
-    branches:
-      - master
-      - develop
-      - "feature/**"
+  push
   pull_request:
     branches:
       - master
@@ -38,6 +34,7 @@ jobs:
           cd viur
           python -m pip install --upgrade pip
           if [ -f tests/requirements.txt ]; then python -m pip install -r tests/requirements.txt; fi
+          python -m pip install -U coverage
 
       - name: Check env
         run: |
@@ -50,3 +47,21 @@ jobs:
         run: |
           python ./viur/tests/main.py
           echo $?
+
+      - name: Build Coverage
+        run: |
+          cd viur/tests/
+          coverage run --source=../core -m unittest discover
+          coverage report
+          coverage html
+
+      - name: Deploy Coverage
+        uses: peaceiris/actions-gh-pages@v3
+        # TODO: should be later only main, or the target must be a different branch
+        if: ${{ github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./viur/tests/htmlcov/
+          publish_branch: coverage-html
+          allow_empty_commit: true
+          #force_orphan: true
