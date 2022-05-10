@@ -102,7 +102,7 @@ jobs:
           git rm --ignore-unmatch *
           cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov .
           git add -A
-          git remove -v
+          git remote -v
 
           echo "::debug::Author: $GITHUB_ACTOR";
           echo "::debug::Author Email: `git show -s --format='%ae' ${{ github.sha }}`";
