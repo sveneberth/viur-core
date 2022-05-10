@@ -121,7 +121,7 @@ jobs:
           cd /home/runner/work/pages
           git status
           git rm --ignore-unmatch *
-          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov .
+          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov/ .
           ls -lHFA
           git add -A
           git remote -v
@@ -140,4 +140,4 @@ jobs:
           ls . -lHFA
           ls viur -lHFA
           ls /home/runner/ -lHFA
-          ls /home/runner/actions_github_page* -lHFA
+#          ls /home/runner/actions_github_page* -lHFA
