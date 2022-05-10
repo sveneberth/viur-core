@@ -86,41 +86,41 @@ jobs:
 #          #force_orphan: true
 
 #
-#      - name: Deploy 🚀
-#        uses: JamesIves/github-pages-deploy-action@v4.3.3
-#        with:
-#          branch: coverage-html # The branch the action should deploy to.
-#          folder: viur/tests/htmlcov # The folder the action should deploy.
-
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          known_hosts: ''
+          branch: coverage-html # The branch the action should deploy to.
+          folder: viur/tests/htmlcov # The folder the action should deploy.
 
-      - name: Deploy
-        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
-        run: |
-          git clone git@github.com:${{ github.repository }}.git -b coverage-html /home/runner/work/pages
-          cd /home/runner/work/pages
-          git status
-          git rm --ignore-unmatch *
-          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov .
-          git add -A
-          git remote -v
-
-          echo "::debug::Author: $GITHUB_ACTOR";
-          echo "::debug::Author Email: `git show -s --format='%ae' ${{ github.sha }}`";
-          git config --global user.name "$GITHUB_ACTOR"
-          git config --global user.email `git show -s --format='%ae' ${{ github.sha }}`
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git commit -asm "GitHub Page Build for ${{ github.sha }}" --allow-empty
-          git push origin coverage-html
-
-      - name: Check
-        run: |
-          pwd
-          ls . -lHFA
-          ls viur -lHFA
-          ls /home/runner/ -lHFA
-          ls /home/runner/actions_github_page* -lHFA
+#      - name: Install SSH Key
+#        uses: shimataro/ssh-key-action@v2
+#        with:
+#          key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+#          known_hosts: ''
+#
+#      - name: Deploy
+#        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+#        run: |
+#          git clone git@github.com:${{ github.repository }}.git -b coverage-html /home/runner/work/pages
+#          cd /home/runner/work/pages
+#          git status
+#          git rm --ignore-unmatch *
+#          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov .
+#          git add -A
+#          git remote -v
+#
+#          echo "::debug::Author: $GITHUB_ACTOR";
+#          echo "::debug::Author Email: `git show -s --format='%ae' ${{ github.sha }}`";
+#          git config --global user.name "$GITHUB_ACTOR"
+#          git config --global user.email `git show -s --format='%ae' ${{ github.sha }}`
+#          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+#          git commit -asm "GitHub Page Build for ${{ github.sha }}" --allow-empty
+#          git push origin coverage-html
+#
+#      - name: Check
+#        run: |
+#          pwd
+#          ls . -lHFA
+#          ls viur -lHFA
+#          ls /home/runner/ -lHFA
+#          ls /home/runner/actions_github_page* -lHFA
