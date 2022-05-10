@@ -65,7 +65,9 @@ jobs:
           pwd
           ls . -lHFA
           ls viur -lHFA
-          ls /home/runner/ -lHFA
+          ls /home/runner -lHFA
+          ls /home/runner/work -lHFA
+          ls /home/runner/work/viur-core -lHFA
 
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
