@@ -3,9 +3,7 @@ name: Python test
 on:
   push:
     branches:
-      - master
-      - develop
-      - "feature/**"
+      - '**'
   pull_request:
     branches:
       - master
@@ -38,6 +36,7 @@ jobs:
           cd viur
           python -m pip install --upgrade pip
           if [ -f tests/requirements.txt ]; then python -m pip install -r tests/requirements.txt; fi
+          python -m pip install -U coverage
 
       - name: Check env
         run: |
@@ -50,3 +49,45 @@ jobs:
         run: |
           python ./viur/tests/main.py
           echo $?
+
+      - name: Build Coverage
+        run: |
+          cd viur/tests/
+          coverage run --source=../core -m unittest discover
+          coverage report
+          coverage html
+
+      - name: Add SSH key
+        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p /home/runner/.ssh
+          ssh-keyscan github.com >> /home/runner/.ssh/known_hosts
+          echo "${{ secrets.ACTIONS_DEPLOY_KEY }}" > /home/runner/.ssh/github_actions
+          chmod 600 /home/runner/.ssh/github_actions
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add /home/runner/.ssh/github_actions
+
+      - name: Deploy Coverage
+        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          git clone git@github.com:${{ github.repository }}.git -b coverage-html /home/runner/work/pages
+          cd /home/runner/work/pages
+          # git status
+          git rm --ignore-unmatch *
+          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov/* .
+          #ls -lHFA
+          git add -A
+          #git status
+          #git remote -v
+
+          echo "::debug::Author: $GITHUB_ACTOR";
+          echo "::debug::Author Email: `git show -s --format='%ae' ${{ github.sha }}`";
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email `git show -s --format='%ae' ${{ github.sha }}`
+          #git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit -asm "Coverage Build for ${{ github.sha }}" --allow-empty
+          git push origin coverage-html
