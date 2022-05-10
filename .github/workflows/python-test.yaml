@@ -60,18 +60,18 @@ jobs:
           coverage report
           coverage html
 
-      - name: Check
-        run: |
-          pwd
-          ls . -lHFA
-          ls viur -lHFA
-          ls /home/runner -lHFA
-          ls /home/runner/work -lHFA
-          ls /home/runner/work/viur-core -lHFA
-          ls /home/runner/work/viur-core/viur-core -lHFA
-          ls /home/runner/work/viur-core/viur-core/viur -lHFA
-          ls /home/runner/work/viur-core/viur-core/viur/tests -lHFA
-          ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
+#      - name: Check
+#        run: |
+#          pwd
+#          ls . -lHFA
+#          ls viur -lHFA
+#          ls /home/runner -lHFA
+#          ls /home/runner/work -lHFA
+#          ls /home/runner/work/viur-core -lHFA
+#          ls /home/runner/work/viur-core/viur-core -lHFA
+#          ls /home/runner/work/viur-core/viur-core/viur -lHFA
+#          ls /home/runner/work/viur-core/viur-core/viur/tests -lHFA
+#          ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
 
 #      - name: Deploy Coverage
 #        uses: peaceiris/actions-gh-pages@v3
@@ -85,12 +85,30 @@ jobs:
 #          allow_empty_commit: true
 #          #force_orphan: true
 
+#
+#      - name: Deploy 🚀
+#        uses: JamesIves/github-pages-deploy-action@v4.3.3
+#        with:
+#          branch: coverage-html # The branch the action should deploy to.
+#          folder: viur/tests/htmlcov # The folder the action should deploy.
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          branch: coverage-html # The branch the action should deploy to.
-          folder: viur/tests/htmlcov # The folder the action should deploy.
+
+    - name: Deploy
+      run: |
+        git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git -b coverage-html /home/runner/work/pages
+        cd /home/runner/work/pages
+        git status
+        git rm *
+        cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov .
+        git add -A
+
+        echo "::debug::Author: $GITHUB_ACTOR";
+        echo "::debug::Author Email: `git show -s --format='%ae' ${{ github.sha }}`";
+        git config --global user.name "$GITHUB_ACTOR"
+        git config --global user.email `git show -s --format='%ae' ${{ github.sha }}`
+        git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git commit -asm "GitHub Page Build for ${{ github.sha }}" --allow-empty
+        git push origin coverage-html
 
       - name: Check
         run: |
