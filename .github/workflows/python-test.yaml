@@ -96,7 +96,7 @@ jobs:
       - name: Deploy
         if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
         run: |
-          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git -b coverage-html /home/runner/work/pages
+          git clone ${{ github.repositoryUrl }} -b coverage-html /home/runner/work/pages
           cd /home/runner/work/pages
           git status
           git rm --ignore-unmatch *
