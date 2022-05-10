@@ -125,7 +125,6 @@ jobs:
           ls -lHFA
           git add -A
           git status
-          git add .
           git remote -v
 
           echo "::debug::Author: $GITHUB_ACTOR";
