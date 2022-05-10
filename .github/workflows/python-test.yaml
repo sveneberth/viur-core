@@ -121,9 +121,11 @@ jobs:
           cd /home/runner/work/pages
           git status
           git rm --ignore-unmatch *
-          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov/ .
+          cp -r /home/runner/work/viur-core/viur-core/viur/tests/htmlcov/* .
           ls -lHFA
           git add -A
+          git status
+          git add .
           git remote -v
 
           echo "::debug::Author: $GITHUB_ACTOR";
