@@ -1,7 +1,9 @@
 name: Python test
 
 on:
-  push
+  push:
+    branches:
+      - '*'
   pull_request:
     branches:
       - master
@@ -58,7 +60,7 @@ jobs:
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
         # TODO: should be later only main, or the target must be a different branch
-        if: ${{ github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./viur/tests/htmlcov/
