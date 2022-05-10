@@ -92,6 +92,10 @@ jobs:
 #          branch: coverage-html # The branch the action should deploy to.
 #          folder: viur/tests/htmlcov # The folder the action should deploy.
 
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 
       - name: Deploy
         if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
