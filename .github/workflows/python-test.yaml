@@ -146,6 +146,6 @@ jobs:
           ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
           echo "MARKER"
           echo `ls -d /home/runner/actions_github_page*/`
-          ls `ls -d /home/runner/actions_github_page*/` -lHFA
+          ls `ls -d /home/runner/actions_github_page*/` -lHFAR
           cd `ls -d /home/runner/actions_github_page*/`
           git status
