@@ -144,6 +144,8 @@ jobs:
           pwd
           ls . -lHFA
           ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
+          echo "MARKER"
+          echo `ls -d /home/runner/actions_github_page*/`
           ls `ls -d /home/runner/actions_github_page*/` -lHFA
           cd `ls -d /home/runner/actions_github_page*/` -lHFA
           git status
