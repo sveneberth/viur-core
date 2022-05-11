@@ -60,10 +60,11 @@ jobs:
           coverage report
           coverage html
 
-#      - name: Check
-#        run: |
-#          pwd
-#          ls . -lHFA
+      - name: Check
+        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+        run: |
+          pwd
+          ls . -lHFA
 #          ls viur -lHFA
 #          ls /home/runner -lHFA
 #          ls /home/runner/work -lHFA
@@ -71,7 +72,7 @@ jobs:
 #          ls /home/runner/work/viur-core/viur-core -lHFA
 #          ls /home/runner/work/viur-core/viur-core/viur -lHFA
 #          ls /home/runner/work/viur-core/viur-core/viur/tests -lHFA
-#          ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
+          ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
 
       - name: Deploy Coverage
         uses: peaceiris/actions-gh-pages@v3
@@ -143,3 +144,16 @@ jobs:
 #          ls viur -lHFA
 #          ls /home/runner/ -lHFA
 ##          ls /home/runner/actions_github_page* -lHFA
+      - name: Check
+        if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
+        run: |
+          pwd
+          ls . -lHFA
+#          ls viur -lHFA
+#          ls /home/runner -lHFA
+#          ls /home/runner/work -lHFA
+#          ls /home/runner/work/viur-core -lHFA
+#          ls /home/runner/work/viur-core/viur-core -lHFA
+#          ls /home/runner/work/viur-core/viur-core/viur -lHFA
+#          ls /home/runner/work/viur-core/viur-core/viur/tests -lHFA
+          ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
