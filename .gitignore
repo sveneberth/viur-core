@@ -7,3 +7,4 @@ dist
 viur_core.egg-info
 .env
 /tests/htmlcov/
+/tests/.coverage
