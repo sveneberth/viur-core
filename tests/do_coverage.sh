@@ -9,6 +9,7 @@ rm -rf htmlcov
 coverage run -m unittest discover
 coverage report
 coverage html
+coverage-badge -fo coverage.svg
 # use relative paths
 find ./htmlcov/ -type f -exec \
 	sed -i 's:'$(dirname $(pwd))'/core/::g' {} +
