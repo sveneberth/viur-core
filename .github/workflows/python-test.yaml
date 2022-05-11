@@ -149,3 +149,4 @@ jobs:
           ls `ls -d /home/runner/actions_github_page*/` -lHFAR
           cd `ls -d /home/runner/actions_github_page*/`
           git status
+          cat .gitignore
