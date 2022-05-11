@@ -147,5 +147,5 @@ jobs:
           echo "MARKER"
           echo `ls -d /home/runner/actions_github_page*/`
           ls `ls -d /home/runner/actions_github_page*/` -lHFA
-          cd `ls -d /home/runner/actions_github_page*/` -lHFA
+          cd `ls -d /home/runner/actions_github_page*/`
           git status
