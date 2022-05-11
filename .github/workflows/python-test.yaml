@@ -144,3 +144,4 @@ jobs:
           pwd
           ls . -lHFA
           ls /home/runner/work/viur-core/viur-core/viur/tests/htmlcov -lHFA
+          ls cd `ls -d /home/runner/actions_github_page*/` -lHFA
