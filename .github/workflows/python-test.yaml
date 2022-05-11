@@ -80,7 +80,7 @@ jobs:
         with:
 #          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /home/runner/work/viur-core/viur-core/viur/tests/htmlcov
+          publish_dir: viur/tests/htmlcov
           publish_branch: coverage-html2
           allow_empty_commit: true
           #force_orphan: true
