@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for bones/numericBone.py: 41%</title>
+    <title>Coverage for bones/numericBone.py: 35%</title>
     <link rel="icon" sizes="32x32" href="favicon_32.png">
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="coverage_html.js" defer></script>
@@ -13,7 +13,7 @@
     <div class="content">
         <h1>
             <span class="text">Coverage for </span><b>bones/numericBone.py</b>:
-            <span class="pc_cov">41%</span>
+            <span class="pc_cov">35%</span>
         </h1>
         <div id="help_panel_wrapper">
             <input id="help_panel_state" type="checkbox">
@@ -27,6 +27,7 @@
                         <kbd>r</kbd>
                         <kbd>m</kbd>
                         <kbd>x</kbd>
+                        <kbd>p</kbd>
                         &nbsp; toggle line displays
                     </p>
                     <p class="keyhelp">
@@ -47,6 +48,7 @@
             <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">33<span class="text"> run</span></button>
             <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">48<span class="text"> missing</span></button>
             <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
+            <button type="button" class="par run show_par button_toggle_par" value="par" data-shortcut="p" title="Toggle lines partially run">1<span class="text"> partial</span></button>
         </h2>
         <div style="display: none;">
             <button type="button" class="button_next_chunk" data-shortcut="j">Next highlighted chunk</button>
@@ -86,7 +88,7 @@
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t"><span class="str">                """</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">                <span class="nam">super</span><span class="op">(</span><span class="nam">numericBone</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">.</span><span class="nam">__init__</span><span class="op">(</span><span class="nam">defaultValue</span><span class="op">=</span><span class="nam">defaultValue</span><span class="op">,</span> <span class="op">*</span><span class="nam">args</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">                <span class="nam">self</span><span class="op">.</span><span class="nam">precision</span> <span class="op">=</span> <span class="nam">precision</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">                <span class="key">if</span> <span class="key">not</span> <span class="nam">self</span><span class="op">.</span><span class="nam">precision</span> <span class="key">and</span> <span class="str">"mode"</span> <span class="key">in</span> <span class="nam">kwargs</span> <span class="key">and</span> <span class="nam">kwargs</span><span class="op">[</span><span class="str">"mode"</span><span class="op">]</span> <span class="op">==</span> <span class="str">"float"</span><span class="op">:</span>  <span class="com"># Fallback for old API</span>&nbsp;</span><span class="r"></span></p>
+    <p class="par run show_par"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">                <span class="key">if</span> <span class="key">not</span> <span class="nam">self</span><span class="op">.</span><span class="nam">precision</span> <span class="key">and</span> <span class="str">"mode"</span> <span class="key">in</span> <span class="nam">kwargs</span> <span class="key">and</span> <span class="nam">kwargs</span><span class="op">[</span><span class="str">"mode"</span><span class="op">]</span> <span class="op">==</span> <span class="str">"float"</span><span class="op">:</span>  <span class="com"># Fallback for old API</span>&nbsp;</span><span class="r"><span class="annotate short">30&#x202F;&#x219B;&#x202F;31</span><span class="annotate long">line 30 didn't jump to line 31, because the condition on line 30 was never true</span></span></p>
     <p class="mis show_mis"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">                        <span class="nam">self</span><span class="op">.</span><span class="nam">precision</span> <span class="op">=</span> <span class="num">8</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">                <span class="nam">self</span><span class="op">.</span><span class="nam">min</span> <span class="op">=</span> <span class="nam">min</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">                <span class="nam">self</span><span class="op">.</span><span class="nam">max</span> <span class="op">=</span> <span class="nam">max</span>&nbsp;</span><span class="r"></span></p>
@@ -180,7 +182,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v6.3.2</a>,
-            created at 2022-05-11 15:10 +0000
+            created at 2022-05-11 15:12 +0000
         </p>
     </div>
 </footer>
