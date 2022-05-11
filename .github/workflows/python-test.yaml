@@ -59,6 +59,7 @@ jobs:
           coverage run --source=../core -m unittest discover
           coverage report
           coverage html
+          rm htmlcov/.gitignore
 
       - name: Check 1
         if: ${{ matrix.python == '3.10' && github.event_name == 'push' && (startsWith(github.ref_name, 'feature/unittest') || github.ref_name == 'main') }}
