@@ -434,8 +434,9 @@ class RelationalBone(BaseBone):
             try:
                 dbKey = db.keyHelper(key, self.kind)
                 entry = db.Get(dbKey)
-                assert entry
+                assert entry, repr(entry)
             except:  # Invalid key or something like that
+                logging.exception("uoos")
                 logging.info("Invalid reference key >%s< detected on bone '%s'",
                              key, name)
                 if isinstance(oldValues, dict):
@@ -449,13 +450,17 @@ class RelationalBone(BaseBone):
                             isEntryFromBackup = True
             if isEntryFromBackup:
                 refSkel = entry
+                print(11111)
             elif entry:
+                print(222222)
                 refSkel.dbEntity = entry
                 for k in refSkel.keys():
                     # Unserialize all bones from refKeys, then drop dbEntity - otherwise all properties will be copied
                     _ = refSkel[k]
+                    print(k)
                 refSkel.dbEntity = None
             else:
+                print(333333)
                 if index:
                     errors.append(
                         ReadFromClientError(ReadFromClientErrorSeverity.Invalid, "Invalid value submitted",

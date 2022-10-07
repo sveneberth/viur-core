@@ -162,6 +162,8 @@ class SkeletonInstance:
             if boneInstance:
                 if self.dbEntity is not None:
                     boneInstance.unserialize(self, key)
+                    print((self, key, self.dbEntity))
+                    print(self.accessedValues)
                 else:
                     self.accessedValues[key] = boneInstance.getDefaultValue(self)
         if not self.renderPreparation:
@@ -413,6 +415,11 @@ class MetaSkel(MetaBaseSkel):
         # Ensure that all skeletons are defined in folders listed in conf["viur.skeleton.searchPath"]
         if (not any([relNewFileName.startswith(x) for x in conf["viur.skeleton.searchPath"]])
             and not "viur_doc_build" in dir(sys)):  # Do not check while documentation build
+            print("="*80)
+            print(relNewFileName)
+            print([relNewFileName.startswith(x) for x in conf["viur.skeleton.searchPath"]])
+            print(conf["viur.skeleton.searchPath"])
+            print("="*80)
             raise NotImplementedError(
                 "Skeletons must be defined in a folder listed in conf[\"viur.skeleton.searchPath\"]")
         if cls.kindName and cls.kindName is not __undefindedC__:

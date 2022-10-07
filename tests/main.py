@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-from unittest import mock
-
 import importlib.util
 import os
 import pathlib
 import sys
 import unittest
 from types import ModuleType
+from unittest import mock
 
 # top_level_dir is the parent-folder of "tests" and "core"
 tld = pathlib.Path(__file__).resolve().parent.parent
@@ -24,6 +23,9 @@ def monkey_patch():
                     "google.protobuf",
                     "google.auth",
                     "google.auth.default",
+                    "google.auth.transport",
+                    "google.oauth2",
+                    "google.oauth2.service_account",
                     "google.cloud.tasks_v2",
                     "google.cloud.tasks_v2.services",
                     "google.cloud.tasks_v2.services.cloud_tasks.transports",
@@ -61,6 +63,29 @@ def monkey_patch():
     viur_datastore = mock.Mock()
     for attr in db_attr:
         setattr(viur_datastore, attr, mock.Mock())
+
+    # setattr(viur_datastore, "Entity", mock.Mock(spec=dict))
+
+    class Tmp(dict):
+        def __init__(self, *args, **kwargs):
+            super(Tmp, self).__init__(*args, **kwargs)
+            self["key"] = "abc"
+            # self.key = "fooooo"
+            self["dlkey"] = "def"
+
+        @property
+        def key(self):
+            class Key:
+                is_partial = False
+
+            return Key()
+
+    setattr(viur_datastore, "Get", lambda x: {"__key__": "ybc", "key": "test", "dlkey": "test"})
+    setattr(viur_datastore, "Get", lambda x: Tmp())
+    # setattr(viur_datastore, "Entity", mock.Mock(spec=dict,return_value={"__key__": "ybc", "key": "test"}))
+    # setattr(viur_datastore, "Entity", mock.Mock())
+    # setattr(viur_datastore, "Entity", dict)
+    setattr(viur_datastore, "Entity", Tmp)
     viur_datastore.config = {}
     sys.modules["viur.datastore"] = viur_datastore
 

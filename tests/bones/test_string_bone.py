@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 
@@ -158,6 +159,8 @@ class TestStringBoneSerialize(unittest.TestCase):
     def setUpClass(cls) -> None:
         from main import monkey_patch
         monkey_patch()
+        from viur.core.config import conf
+        conf["viur.skeleton.searchPath"].append("/viur/tests/bones")
         cls.bone_name = "myStringBone"
 
     def test_singleValueSerialize_caseSensitive(self):
@@ -197,3 +200,59 @@ class TestStringBoneSerialize(unittest.TestCase):
         self.assertEqual("Foo", res)
         res = bone.singleValueUnserialize(None)
         self.assertEqual("", res)
+
+    def test_skeleton(self):
+        from viur.core.skeleton import Skeleton,SkeletonInstance
+        from viur.core.bones import StringBone, FileBone
+        from viur.core.modules.file import fileBaseSkel, fileNodeSkel
+        from viur.core.bones.base import setSystemInitialized
+        setSystemInitialized()
+
+        class TestSkel(Skeleton):
+            str_single = StringBone(
+                descr="str_single",
+            )
+            str_multiple = StringBone(
+                descr="str_multiple",
+                multiple=True,
+            )
+            str_languages = StringBone(
+                descr="str_languages",
+                languages=["de", "en", "fr"],
+            )
+            str_multiple_languages = StringBone(
+                descr="str_multiple_languages",
+                multiple=True,
+                languages=["de", "en", "fr"],
+            )
+            file = FileBone(
+                descr="file",
+            )
+
+        skel : SkeletonInstance = TestSkel()
+        logging.info(type(skel))
+        skel.fromClient({
+            "str_single": "foo",
+            "str_multiple": [f"foo{x}" for x in range(5)],
+            "str_languages.en": "foo",
+            "str_languages.de": [f"bar{x}" for x in range(5)], # invalid
+            "str_multiple_languages.en": [f"baz{x}" for x in range(5)],
+            "file": "xyz",
+        })
+        logging.info(skel)
+        skeletonCls : Skeleton = skel.skeletonCls
+        # skeletonCls.setBoneValue(skel, "name", "bar")
+
+        for bone_name, bone_instance in skel.items():
+            res = bone_instance.getReferencedBlobs(skel, bone_name)
+            # all_blobs.update(res)
+            logging.debug("getReferencedBlobs for %s(%r): %r", bone_name, bone_instance, res)
+
+            if bone_instance.searchable or 1:
+                res = bone_instance.getSearchTags(skel, bone_name)
+                # all_tags.update(res)
+                logging.debug("getSearchTags for %s(%r): %r", bone_name, bone_instance, res)
+
+        # skeletonCls.get(skel, "name", "bar")
+        logging.info(skel)
+        logging.info(dict(skel))

@@ -75,7 +75,11 @@ class KeyBone(BaseBone):
             elif not isinstance(val, db.Key):
                 val = None
             return val
-
+        print(skel.dbEntity, type(skel.dbEntity))
+        print(db.Entity, type(db.Entity))
+        print(1, isinstance(skel.dbEntity, db.Entity))
+        print(1, skel.dbEntity.key)
+        print(1, not skel.dbEntity.key.is_partial)
         if (name == "key"
             and isinstance(skel.dbEntity, db.Entity)
             and skel.dbEntity.key
