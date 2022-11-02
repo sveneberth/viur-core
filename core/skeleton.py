@@ -966,7 +966,7 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
 
         key = skelValues["key"] or    None
         isAdd = key is None
-        if not isinstance(clearUpdateTag,bool):
+        if not isinstance(clearUpdateTag,        bool):
             raise ValueError(
                 "Got an unsupported type %s for clearUpdateTag. toDB doesn't accept a key argument any more!" % str(
                     type(clearUpdateTag)))
