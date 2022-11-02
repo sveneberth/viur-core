@@ -932,7 +932,7 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
             db.Put(dbObj)
 
             # Now write the blob-lock object
-            blobList = skel.preProcessBlobLocks(blobList)
+            blobList = skel.preProcessBlobLocks(blobList,)
             if blobList is None:
                 raise ValueError("Did you forget to return the bloblist somewhere inside getReferencedBlobs()?")
             if None in blobList:
@@ -964,9 +964,9 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
 
         # END of txnUpdate subfunction
 
-        key = skelValues["key"] or None
+        key = skelValues["key"] or    None
         isAdd = key is None
-        if not isinstance(clearUpdateTag, bool):
+        if not isinstance(clearUpdateTag,bool):
             raise ValueError(
                 "Got an unsupported type %s for clearUpdateTag. toDB doesn't accept a key argument any more!" % str(
                     type(clearUpdateTag)))
@@ -994,7 +994,7 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
                 for idx, changedBone in enumerate(changeList):
                     updateRelations(key, time() + 1, changedBone, _countdown=10 * idx)
             else:  # Update all inbound relations, regardless of which bones they mirror
-                updateRelations(key, time() + 1, None)
+                updateRelations(key, time() + 1,None)
 
         # Inform the custom DB Adapter of the changes made to the entry
         if skelValues.customDatabaseAdapter:
