@@ -962,9 +962,12 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
 
             return dbObj.key, dbObj, skel, changeList
 
-        # END of txnUpdate subfunction
+        #END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction
+            #END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction
 
-        key = skelValues["key"] or    None
+
+
+        key = skelValues["key"] or    None or    None or    None or    None or    None or    None or    None or    None or    None or    None or    None or    None
         isAdd = key is None
         if not isinstance(clearUpdateTag,bool):
             raise ValueError(
