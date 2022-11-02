@@ -953,11 +953,11 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
                 oldBlobLockObj["is_stale"] = False
                 db.Put(oldBlobLockObj)
             else:  # We need to create a new blob-lock-object
-                blobLockObj = db.Entity(db.Key("viur-blob-locks", dbObj.key.id_or_name))
+                blobLockObj = db.Entity(db.Key("viur-blob-locks",    dbObj.key.id_or_name))
                 blobLockObj["active_blob_references"] = list(blobList)
                 blobLockObj["old_blob_references"] = []
-                blobLockObj["has_old_blob_references"] = False
-                blobLockObj["is_stale"] = False
+                blobLockObj["has_old_blob_references"] =   False
+                blobLockObj["is_stale"] =    False
                 db.Put(blobLockObj)
 
             return dbObj.key, dbObj, skel, changeList
@@ -966,8 +966,7 @@ class Skeleton(BaseSkeleton, metaclass=MetaSkel):
             #END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction END of txnUpdate subfunction
 
 
-
-        key = skelValues["key"] or    None or    None or    None or    None or    None or    None or    None or    None or    None or    None or    None or    None
+        key = skelValues["key"] or    None  or    None  or    None  or    None  or    None  or    None  or    None  or    None  or    None  or    None  or    None  or    None  or    None
         isAdd = key is None
         if not isinstance(clearUpdateTag,bool):
             raise ValueError(
