@@ -66,6 +66,6 @@ jobs:
           git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
 
       - name: run pep8check @push
-        if: ${{ event_name == 'push' }}
+        if: ${{ github.event_name == 'push' }}
         run: |
           git show -U0 ${GITHUB_SHA} | pycodestyle --diff
