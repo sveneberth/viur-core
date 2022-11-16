@@ -54,7 +54,7 @@ jobs:
           ls /home/runner/ -lHFA
           cd /home/runner/work/viur-core/viur-core/viur
           git show -U0 ${GITHUB_SHA}
-          git diff -U0 ${$GITHUB_BASE_REF}..${GITHUB_SHA}
+          git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA}
 
       - name: run pep8check
         run: |
