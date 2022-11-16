@@ -48,6 +48,7 @@ jobs:
           echo "::debug::MARKER 1";
           ls /home/runner/ -lHFA
           echo "::debug::MARKER 2";
+          git branch -alvvv
           echo "::debug::MARKER 3";
           git show -U0 ${GITHUB_SHA}
           git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA}
