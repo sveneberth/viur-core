@@ -51,8 +51,8 @@ jobs:
           git branch -alvvv
           echo "::debug::MARKER 3";
           git show -U0 ${GITHUB_SHA}
-          git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA}
-          git diff -U0 ${GITHUB_BASE_REF}..HEAD
+          git diff -U0 origin/${GITHUB_BASE_REF}..${GITHUB_SHA}
+          git diff -U0 origin/${GITHUB_BASE_REF}..HEAD
 
       - name: Install dependencies
         run: |
