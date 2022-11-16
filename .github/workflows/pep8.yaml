@@ -19,7 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-#          path: viur
           fetch-depth: "0"
 
       - name: Set up Python ${{ matrix.python }}
@@ -62,7 +61,7 @@ jobs:
       - name: run pep8check @pull_request
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
+          git diff -U0 origin/${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
 
       - name: run pep8check @push
         if: ${{ github.event_name == 'push' }}
