@@ -33,6 +33,28 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U pycodestyle
 
+      - name: debug
+        run: |
+          pwd
+          ls . -lHFA
+          echo "::debug::Author: $GITHUB_ACTOR";
+          echo "::debug::GITHUB_BASE_REF: $GITHUB_BASE_REF";
+          echo "::debug::GITHUB_ENV: $GITHUB_ENV";
+          echo "::debug::GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME";
+          echo "::debug::GITHUB_BASE_REF: $GITHUB_BASE_REF";
+          echo "::debug::GITHUB_HEAD_REF: $GITHUB_HEAD_REF";
+          echo "::debug::GITHUB_PATH: $GITHUB_PATH";
+          echo "::debug::GITHUB_REF: $GITHUB_REF";
+          echo "::debug::GITHUB_REF_NAME: $GITHUB_REF_NAME";
+          echo "::debug::GITHUB_SHA: $GITHUB_SHA";
+          echo "::debug::GITHUB_WORKSPACE: $GITHUB_WORKSPACE";
+          echo "::debug::SHA: ${{ github.sha }}";
+          echo ${{ github }}
+          env
+          ls /home/runner/ -lHFA
+          cd /home/runner/work/viur-core/viur-core/viur
+          git show -U0 ${GITHUB_SHA}
+
       - name: run pep8check
         run: |
           cd /home/runner/work/viur-core/viur-core/viur
