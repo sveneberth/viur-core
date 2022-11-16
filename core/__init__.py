@@ -39,7 +39,7 @@ import webob
 conf["viur.version"] = tuple(__version__.split(".", 3))
 
 
-def setDefaultLanguage(lang: str):
+def setDefaultLanguage   (   lang: str):
     """
         Sets the default language used by ViUR to *lang*.
 
@@ -261,7 +261,7 @@ def setup(modules: Union[object, ModuleType], render: Union[ModuleType, Dict] = 
 
         if "hmacKey" not in obj:  # create a new hmacKey
             logging.info("Creating new hmacKey")
-            obj["hmacKey"] = utils.generateRandomString(length=20)            
+            obj["hmacKey"] = utils.generateRandomString(length=20)
             db.Put(obj)
 
         conf["viur.file.hmacKey"] = bytes(obj["hmacKey"], "utf-8")
