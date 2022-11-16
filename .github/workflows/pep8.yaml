@@ -9,7 +9,7 @@ on:
       - '**'
 
 jobs:
-  test:
+  linter:
     strategy:
       matrix:
         python: [ "3.10" ]
@@ -60,7 +60,12 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U pycodestyle
 
-      - name: run pep8check
+      - name: run pep8check @pull_request
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
-          cd /home/runner/work/viur-core/viur-core/viur
           git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
+
+      - name: run pep8check @push
+        if: ${{ event_name == 'push' }}
+        run: |
+          git show -U0 ${GITHUB_SHA} | pycodestyle --diff
