@@ -27,12 +27,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      - name: Install dependencies
-        run: |
-          cd viur
-          python -m pip install -U pip
-          python -m pip install -U pycodestyle
-
       - name: debug
         run: |
           pwd
@@ -58,6 +52,12 @@ jobs:
           echo "::debug::MARKER 3";
           git show -U0 ${GITHUB_SHA}
           git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA}
+
+      - name: Install dependencies
+        run: |
+          cd viur
+          python -m pip install -U pip
+          python -m pip install -U pycodestyle
 
       - name: run pep8check
         run: |
