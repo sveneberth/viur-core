@@ -59,4 +59,4 @@ jobs:
       - name: run pep8check
         run: |
           cd /home/runner/work/viur-core/viur-core/viur
-          git diff -U0 ${$GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
+          git diff -U0 ${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
