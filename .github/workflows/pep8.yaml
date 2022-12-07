@@ -39,5 +39,5 @@ jobs:
       - name: run pep8check @push
         if: ${{ github.event_name == 'push' }}
         run: |
-          git show orgin/master..HEAD ${GITHUB_SHA} | pycodestyle --diff --format='::error file=%(path)s,line=%(row)d,col=%(col)d::%(code)s %(text)s'
+          git show origin/master..HEAD ${GITHUB_SHA} | pycodestyle --diff --format='::error file=%(path)s,line=%(row)d,col=%(col)d::%(code)s %(text)s'
 #          git show -U0 ${GITHUB_SHA} | pycodestyle --diff
