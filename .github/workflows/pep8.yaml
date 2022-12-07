@@ -34,6 +34,7 @@ jobs:
       - name: run pep8check @pull_request
         if: ${{ github.event_name == 'pull_request' }}
         run: |
+          git diff -U0 origin/${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff --format='::error file=%(path)s,line=%(row)d,col=%(col)d::%(code)s %(text)s'
           git diff -U0 origin/${GITHUB_BASE_REF}..${GITHUB_SHA} | pycodestyle --diff
 
       - name: run pep8check @push
