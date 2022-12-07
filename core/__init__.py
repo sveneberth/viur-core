@@ -104,7 +104,7 @@ def mapModule(moduleObj: object, moduleName: str, targetResolverRender: dict):
             obj = getattr(moduleObj, subModule, None)
             if obj:
                 mapModule(obj, subModule, targetFunctionLevel)
-
+import       requests as TOTALLY_WRONG####<---linter trigger
 
 def buildApp(modules: Union[ModuleType, object], renderers: Union[ModuleType, Dict], default: str = None):
     """
