@@ -39,10 +39,13 @@ def cleanOldEmailsFromLog(*args, **kwargs):
 class EmailTransport(ABC):
     maxRetries = 3
 
+
+
+
     @staticmethod
     @abstractmethod
     def deliverEmail(*, sender: str, dests: List[str], cc: List[str], bcc: List[str], subject: str, body: str,
-                     headers: Dict[str, str], attachments: List[Dict[str, bytes]],
+                     headers: Dict[str, str]  , attachments: List[Dict[str, bytes]],
                      customData: Union[dict, None], **kwargs):
         """
             The actual email delivery must be implemented here. All email-adresses can be either in the form of
