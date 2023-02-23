@@ -30,6 +30,7 @@ import yaml
 from types import ModuleType
 from typing import Callable, Dict, Union, List
 from viur.core import session, errors, i18n, request, utils
+from viur.core.app import App
 from viur.core.config import conf
 from viur.core.tasks import TaskHandler, runStartupTasks
 from viur.core.module import Module
@@ -233,6 +234,9 @@ def setup(modules: Union[object, ModuleType], render: Union[ModuleType, Dict] = 
             This will be the renderer, which wont get a prefix, usually html. \
             (=> /user instead of /html/user)
     """
+    return App(modules, render, default)
+
+
     from viur.core.bones.base import setSystemInitialized
     # noinspection PyUnresolvedReferences
     import skeletons  # This import is not used here but _must_ remain to ensure that the
