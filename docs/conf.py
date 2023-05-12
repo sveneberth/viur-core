@@ -28,7 +28,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'autoapi.extension'
+    'autoapi.extension',
+    'sphinx_autodoc_typehints',
 ]
 
 autodoc_default_options = {
@@ -36,6 +37,9 @@ autodoc_default_options = {
 }
 
 autoapi_python_class_content = 'both'
+
+# autodoc_typehints = "none"
+autodoc_typehints = "description"
 
 autoapi_dirs = ['../core']
 
@@ -101,7 +105,9 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 # html_theme = 'default'
-html_theme = 'rtdtemplate'
+# html_theme = 'rtdtemplate'
+html_theme = "furo"
+
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -217,3 +223,20 @@ html_show_sourcelink = True
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'viur-core-doc'
+
+
+autodoc_default_options = {"members": True, "member-order": "bysource", "undoc-members": True, "show-inheritance": True}
+inheritance_alias = {}
+
+extlinks = {
+    "issue": ("https://github.com/tox-dev/pyproject-api/issues/%s", "#%s"),
+    "pull": ("https://github.com/tox-dev/pyproject-api/pull/%s", "PR #%s"),
+    "user": ("https://github.com/%s", "@%s"),
+}
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "packaging": ("https://packaging.pypa.io/en/latest", None),
+}
+
+nitpicky = True
+nitpick_ignore = []
