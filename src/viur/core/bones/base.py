@@ -407,6 +407,7 @@ class BaseBone(object):
                                 continue
                             fieldSubmitted = True
                             partKey = key.replace(prefix, "")
+                            logging.debug(f"{partKey=} // {name=} // {key=} // {prefix=}")
                             firstKey, remainingKey = partKey.split(".", maxsplit=1)
                             try:
                                 firstKey = int(firstKey)

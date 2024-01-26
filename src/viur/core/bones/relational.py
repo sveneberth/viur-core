@@ -3,6 +3,7 @@ This module contains the RelationalBone to create and manage relationships betwe
 and enums to parameterize it.
 """
 import logging
+import pprint
 import warnings
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Union
@@ -659,7 +660,17 @@ class RelationalBone(BaseBone):
         :return: True if the using-skeleton is not None and subfields should be parsed, False otherwise.
         :rtype: bool
         """
+        return True
         return self.using is not None
+
+    def collectRawClientData(self, name, data, multiple, languages, collectSubfields):
+        # logging.debug(f"{data}")
+        pprint.pprint(data, indent=2)
+        if not self.multiple and (value := data.get(name)):
+            logging.debug(f"{name} = {value}")
+            data[f"{name}.key"] = value
+        # if key := data.get(f"{name}.key"):
+        return super().collectRawClientData(name, data, multiple, languages, collectSubfields)
 
     def singleValueFromClient(self, value, skel, bone_name, client_data):
         oldValues = skel[bone_name]
@@ -712,10 +723,13 @@ class RelationalBone(BaseBone):
                 errors.extend(usingSkel.errors)
             return refSkel, usingSkel, errors
 
-        if self.using and isinstance(value, dict):
-            usingData = value
-            destKey = usingData["key"]
-            del usingData["key"]
+        logging.debug(f"{value=}")
+        if isinstance(value, dict):
+            if self.using:
+                usingData = value
+            else:
+                usingData = None
+            destKey = value.pop("key")
         else:
             destKey = value
             usingData = None
@@ -925,7 +939,7 @@ class RelationalBone(BaseBone):
         if origFilter is None or not "orderby" in rawFilter:  # This query is unsatisfiable or not sorted
             return dbFilter
         if "orderby" in rawFilter and isinstance(rawFilter["orderby"], str) and rawFilter["orderby"].startswith(
-               "%s." % name):
+            "%s." % name):
             if not dbFilter.getKind() == "viur-relations" and self.multiple:  # This query has not been rewritten (yet)
                 name, skel, dbFilter, rawFilter = self._rewriteQuery(name, skel, dbFilter, rawFilter)
             key = rawFilter["orderby"]
@@ -1221,12 +1235,12 @@ class RelationalBone(BaseBone):
         elif not self.multiple and self.using:
             if not isinstance(value, tuple) or len(value) != 2 or \
                 not (isinstance(value[0], str) or isinstance(value[0], db.Key)) or \
-                    not isinstance(value[1], self._skeletonInstanceClassRef):
+                not isinstance(value[1], self._skeletonInstanceClassRef):
                 raise ValueError("You must supply a tuple of (Database-Key, relSkel) to %s" % boneName)
             realValue = value
         elif self.multiple and not self.using:
             if not (isinstance(value, str) or isinstance(value, db.Key)) and not (isinstance(value, list)) \
-                    and all([isinstance(x, str) or isinstance(x, db.Key) for x in value]):
+                and all([isinstance(x, str) or isinstance(x, db.Key) for x in value]):
                 raise ValueError("You must supply a Database-Key or a list hereof to %s" % boneName)
             if isinstance(value, list):
                 realValue = [(x, None) for x in value]
