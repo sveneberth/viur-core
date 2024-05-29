@@ -240,6 +240,8 @@ def setup(modules:  ModuleType | object, render:  ModuleType | object = None, de
         import viur.core.render
         render = viur.core.render
     conf.main_app = buildApp(modules, render, default)
+    import threading, time
+    threading.current_thread().times.append(("after conf.main_app = buildApp", time.perf_counter()))
 
     # Send warning email in case trace is activated in a cloud environment
     if ((conf.debug.trace
@@ -258,7 +260,11 @@ def setup(modules:  ModuleType | object, render:  ModuleType | object = None, de
     from viur.core import securityheaders
     securityheaders._rebuildCspHeaderCache()
     securityheaders._rebuildPermissionHeaderCache()
+    import threading, time
+    threading.current_thread().times.append(("before setSystemInitialized", time.perf_counter()))
     setSystemInitialized()
+    import threading, time
+    threading.current_thread().times.append(("after setSystemInitialized", time.perf_counter()))
     # Assert that all security related headers are in a sane state
     if conf.security.content_security_policy and conf.security.content_security_policy["_headerCache"]:
         for k in conf.security.content_security_policy["_headerCache"]:
@@ -277,8 +283,12 @@ def setup(modules:  ModuleType | object, render:  ModuleType | object = None, de
         assert mode in ["deny", "sameorigin", "allow-from"]
         if mode == "allow-from":
             assert uri is not None and (uri.lower().startswith("https://") or uri.lower().startswith("http://"))
+    import threading, time
+    threading.current_thread().times.append(("before runStartupTasks", time.perf_counter()))
     runStartupTasks()  # Add a deferred call to run all queued startup tasks
+    threading.current_thread().times.append(("after runStartupTasks / before i18n", time.perf_counter()))
     i18n.initializeTranslations()
+    threading.current_thread().times.append(("after i18n", time.perf_counter()))
     if conf.file_hmac_key is None:
         from viur.core import db
         key = db.Key("viur-conf", "viur-conf")
@@ -317,6 +327,14 @@ def setup(modules:  ModuleType | object, render:  ModuleType | object = None, de
                     FILL if i in first_last else " "}^{(WIDTH - 2) + (11 if i not in first_last else 0)
                 }}{FILL}"""
             )
+
+    threading.current_thread().times.append(("End core setup", time.perf_counter()))
+    times = iter(threading.current_thread().times)
+    last_lbl, last_ts = next(times)
+    for time_lbl, time_ts in times:
+        print(f'{time_lbl} - {last_lbl}: {time_ts - last_ts}')
+        last_lbl, last_ts = time_lbl, time_ts
+
 
     return wrap_wsgi_app(app)
 

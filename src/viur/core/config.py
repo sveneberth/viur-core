@@ -241,7 +241,8 @@ class ConfigType:
 
 
 # Some values used more than once below
-_project_id = google.auth.default()[1]
+# _project_id = google.auth.default()[1]
+_credentials, _project_id = google.auth.default()
 _app_version = os.getenv("GAE_VERSION")
 
 # Determine our basePath (as os.getCWD is broken on appengine)

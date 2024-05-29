@@ -694,8 +694,10 @@ def runStartupTasks():
         Do not call directly!
     """
     global _startupTasks
+    from viur.toolkit import TimeMe
     for st in _startupTasks:
-        st()
+        with TimeMe(str(st.__qualname__)) as t:
+            st()
 
 
 class MetaQueryIter(type):

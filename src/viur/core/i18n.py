@@ -447,6 +447,9 @@ def migrate_translation(
     from viur.core.modules.translation import TranslationSkel
     logging.info(f"Migrate translation {key}")
     entity: db.Entity = db.Get(key)
+    if entity is None:
+        logging.error(f"entity with {key=} does not exist")
+        return
     if "tr_key" not in entity:
         entity["tr_key"] = entity["key"] or key.name
     if "translation" in entity:

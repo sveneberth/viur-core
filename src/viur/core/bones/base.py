@@ -395,6 +395,7 @@ class BaseBone(object):
 
         :return: A dictionary containing the collected raw client data.
         """
+        logging.debug(f"{name=} | {data=} | {multiple=} | {languages=} | {collectSubfields=} | ")
         fieldSubmitted = False
         if languages:
             res = {}
@@ -445,6 +446,7 @@ class BaseBone(object):
             return res, fieldSubmitted
         else:  # No multi-lang
             if not collectSubfields:
+                logging.debug(f"{data=}")
                 if name not in data:  # Empty!
                     return None, False
                 val = data[name]
@@ -458,15 +460,18 @@ class BaseBone(object):
                 else:
                     return val, True
             else:  # No multi-lang but collect subfields
+                logging.debug(f"{data=}")
                 for key in data.keys():  # Allow setting relations with using, multiple and languages back to none
                     if key == name:
                         fieldSubmitted = True
                 prefix = f"{name}."
+                logging.debug(f"{prefix=} {multiple=}")
                 if multiple:
                     tmpDict = {}
                     for key, value in data.items():
                         if not key.startswith(prefix):
                             continue
+                        logging.debug(f"{key=} | {value=}")
                         fieldSubmitted = True
                         partKey = key.replace(prefix, "")
                         try:
@@ -479,6 +484,8 @@ class BaseBone(object):
                         tmpDict[firstKey][remainingKey] = value
                     tmpList = list(tmpDict.items())
                     tmpList.sort(key=lambda x: x[0])
+                    logging.debug(f"{tmpDict=}")
+                    logging.debug(f"{tmpList=}")
                     return [x[1] for x in tmpList], fieldSubmitted
                 else:
                     res = {}
@@ -531,6 +538,7 @@ class BaseBone(object):
         """
         subFields = self.parseSubfieldsFromClient()
         parsedData, fieldSubmitted = self.collectRawClientData(name, data, self.multiple, self.languages, subFields)
+        logging.debug(f"{name=} {subFields=} {parsedData=} {fieldSubmitted=}")
         if not fieldSubmitted:
             return [ReadFromClientError(ReadFromClientErrorSeverity.NotSet, "Field not submitted")]
         errors = []

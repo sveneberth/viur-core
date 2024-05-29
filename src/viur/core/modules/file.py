@@ -34,7 +34,9 @@ VALID_FILENAME_REGEX = re.compile(
     re.IGNORECASE
 )
 
-_CREDENTIALS, __PROJECT_ID = google.auth.default()
+# _CREDENTIALS, __PROJECT_ID = google.auth.default()
+from viur.core.config import  _project_id, _credentials
+_CREDENTIALS, __PROJECT_ID = _credentials, _project_id
 GOOGLE_STORAGE_CLIENT = storage.Client(__PROJECT_ID, _CREDENTIALS)
 GOOGLE_STORAGE_BUCKET = GOOGLE_STORAGE_CLIENT.lookup_bucket(f"""{__PROJECT_ID}.appspot.com""")
 
@@ -811,7 +813,9 @@ class File(Tree):
             if validUntil != "0" and datetime.datetime.strptime(validUntil, "%Y%m%d%H%M") < datetime.datetime.now():
                 blob = None
             else:
+                logging.debug(f"{dlPath = }")
                 blob = GOOGLE_STORAGE_BUCKET.get_blob(dlPath)
+        logging.debug(f"{blob = }")
 
         if not blob:
             raise errors.Gone("The requested blob has expired.")
