@@ -45,7 +45,12 @@ class ViURDefaultLogger(CloudLoggingHandler):
                 "first": False,
                 "last": False,
                 "id": logID
-            }
+            },
+            source_location={
+                "file": record.pathname,
+                "line": record.lineno,
+                "function": record.funcName,
+            },
         )
 
 
