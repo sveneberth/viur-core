@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_e295e1cac9db2f73_current_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.10">coverage.py v7.6.10</a>,
-            created at 2025-01-30 03:15 +0000
+            created at 2025-02-07 19:24 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -619,7 +619,7 @@
     <p class="pln"><span class="n"><a id="t535" href="#t535">535</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t536" href="#t536">536</a></span><span class="t">    <span class="nam">transport_class</span><span class="op">:</span> <span class="str">"EmailTransport"</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t537" href="#t537">537</a></span><span class="t">    <span class="str">"""EmailTransport instance that actually delivers the email using the service provider</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t538" href="#t538">538</a></span><span class="t"><span class="str">    of choice. See email.py for more details</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t538" href="#t538">538</a></span><span class="t"><span class="str">    of choice. See :module:`core.email` for more details</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t539" href="#t539">539</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t540" href="#t540">540</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t541" href="#t541">541</a></span><span class="t">    <span class="nam">send_from_local_development_server</span><span class="op">:</span> <span class="nam">bool</span> <span class="op">=</span> <span class="key">False</span>&nbsp;</span><span class="r"></span></p>
@@ -629,7 +629,7 @@
     <p class="pln"><span class="n"><a id="t545" href="#t545">545</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t546" href="#t546">546</a></span><span class="t">    <span class="nam">recipient_override</span><span class="op">:</span> <span class="nam">str</span> <span class="op">|</span> <span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span> <span class="op">|</span> <span class="nam">t</span><span class="op">.</span><span class="nam">Callable</span><span class="op">[</span><span class="op">[</span><span class="op">]</span><span class="op">,</span> <span class="nam">str</span> <span class="op">|</span> <span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">|</span> <span class="nam">t</span><span class="op">.</span><span class="nam">Literal</span><span class="op">[</span><span class="key">False</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t547" href="#t547">547</a></span><span class="t">    <span class="str">"""If set, all outgoing emails will be sent to this address</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t548" href="#t548">548</a></span><span class="t"><span class="str">    (overriding the 'dests'-parameter in email.sendEmail)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t548" href="#t548">548</a></span><span class="t"><span class="str">    (overriding the 'dests'-parameter in :meth:`core.email.send_email`)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t549" href="#t549">549</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t550" href="#t550">550</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t551" href="#t551">551</a></span><span class="t">    <span class="nam">sender_default</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="fst">f"</span><span class="fst">viur@</span><span class="op">{</span><span class="nam">_project_id</span><span class="op">}</span><span class="fst">.appspotmail.com</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
@@ -642,15 +642,15 @@
     <p class="run"><span class="n"><a id="t558" href="#t558">558</a></span><span class="t">    <span class="str">"""If set, this sender will be used, regardless of what the templates advertise as sender"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t559" href="#t559">559</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t560" href="#t560">560</a></span><span class="t">    <span class="nam">admin_recipients</span><span class="op">:</span> <span class="nam">str</span> <span class="op">|</span> <span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span> <span class="op">|</span> <span class="nam">t</span><span class="op">.</span><span class="nam">Callable</span><span class="op">[</span><span class="op">[</span><span class="op">]</span><span class="op">,</span> <span class="nam">str</span> <span class="op">|</span> <span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t561" href="#t561">561</a></span><span class="t">    <span class="str">"""Sets recipients for mails send with email.sendEMailToAdmins. If not set, all root users will be used."""</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t562" href="#t562">562</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t563" href="#t563">563</a></span><span class="t">    <span class="nam">_mapping</span> <span class="op">=</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t564" href="#t564">564</a></span><span class="t">        <span class="str">"logRetention"</span><span class="op">:</span> <span class="str">"log_retention"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t565" href="#t565">565</a></span><span class="t">        <span class="str">"transportClass"</span><span class="op">:</span> <span class="str">"transport_class"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t566" href="#t566">566</a></span><span class="t">        <span class="str">"sendFromLocalDevelopmentServer"</span><span class="op">:</span> <span class="str">"send_from_local_development_server"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t567" href="#t567">567</a></span><span class="t">        <span class="str">"recipientOverride"</span><span class="op">:</span> <span class="str">"recipient_override"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t568" href="#t568">568</a></span><span class="t">        <span class="str">"senderOverride"</span><span class="op">:</span> <span class="str">"sender_override"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t569" href="#t569">569</a></span><span class="t">        <span class="str">"admin_recipients"</span><span class="op">:</span> <span class="str">"admin_recipients"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t561" href="#t561">561</a></span><span class="t">    <span class="str">"""Sets recipients for mails send with :meth:`core.email.send_email_to_admins`.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t562" href="#t562">562</a></span><span class="t"><span class="str">    If not set, all root users will be used."""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t563" href="#t563">563</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t564" href="#t564">564</a></span><span class="t">    <span class="nam">_mapping</span> <span class="op">=</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t565" href="#t565">565</a></span><span class="t">        <span class="str">"logRetention"</span><span class="op">:</span> <span class="str">"log_retention"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t566" href="#t566">566</a></span><span class="t">        <span class="str">"transportClass"</span><span class="op">:</span> <span class="str">"transport_class"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t567" href="#t567">567</a></span><span class="t">        <span class="str">"sendFromLocalDevelopmentServer"</span><span class="op">:</span> <span class="str">"send_from_local_development_server"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t568" href="#t568">568</a></span><span class="t">        <span class="str">"recipientOverride"</span><span class="op">:</span> <span class="str">"recipient_override"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t569" href="#t569">569</a></span><span class="t">        <span class="str">"senderOverride"</span><span class="op">:</span> <span class="str">"sender_override"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t570" href="#t570">570</a></span><span class="t">        <span class="str">"sendInBlue.apiKey"</span><span class="op">:</span> <span class="str">"sendinblue_api_key"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t571" href="#t571">571</a></span><span class="t">        <span class="str">"sendInBlue.thresholds"</span><span class="op">:</span> <span class="str">"sendinblue_thresholds"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t572" href="#t572">572</a></span><span class="t">    <span class="op">}</span>&nbsp;</span><span class="r"></span></p>
@@ -1092,7 +1092,7 @@
             <a class="nav" href="z_e295e1cac9db2f73_current_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.10">coverage.py v7.6.10</a>,
-            created at 2025-01-30 03:15 +0000
+            created at 2025-02-07 19:24 +0000
         </p>
     </div>
 </footer>
