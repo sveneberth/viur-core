@@ -33,7 +33,7 @@ jobs:
           cd viur
           pwd
           ls -la
-          cd test
+          cd tests
           pwd
           ls -la
           python -m pip install -U pip
