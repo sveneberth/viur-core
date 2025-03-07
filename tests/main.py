@@ -32,6 +32,10 @@ def monkey_patch():
     # self.testbed.init_memcache_stub()
     self.testbed.init_all_stubs()
 
+    import google.auth
+    google.auth.default = mock.Mock(return_value=(mock.Mock(), "unitestapp"))
+
+
     """
     MOCK_MODULES = (
         "google.appengine.api",
