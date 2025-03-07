@@ -7,9 +7,13 @@ import unittest
 from types import ModuleType
 from unittest import mock
 
+from google.appengine.ext import testbed
+
 # top_level_dir is the parent-folder of "tests" and "core"
 tld = pathlib.Path(__file__).resolve().parent.parent
 
+
+self = type("tmp", (object,), {})
 
 def monkey_patch():
     """Monkey patch libs to work without google cloud environment"""
@@ -18,6 +22,17 @@ def monkey_patch():
     # Skip the skeleton folder check
     sys.viur_doc_build = True
 
+    # First, create an instance of the Testbed class.
+    self.testbed = testbed.Testbed()
+    # Then activate the testbed, which will allow you to use
+    # service stubs.
+    self.testbed.activate()
+    # Next, declare which service stubs you want to use.
+    # self.testbed.init_datastore_v3_stub()
+    # self.testbed.init_memcache_stub()
+    self.testbed.init_all_stubs()
+
+    """
     MOCK_MODULES = (
         "google.appengine.api",
         "google.auth.default",
@@ -117,8 +132,9 @@ def monkey_patch():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
 
-    # Change back the cwd for the unittests
+    Change back the cwd for the unittests
     os.chdir(original_cwd)
+    """
 
 
 if __name__ == "__main__":
