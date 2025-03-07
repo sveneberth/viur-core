@@ -30,6 +30,10 @@ jobs:
         run: |
           cd viur
           pwd
+          ls -la
+          cd test
+          pwd
+          ls -la
           python -m pip install -U pip
           python -m pip install -e ..
           python -m pip install -U coverage coverage-badge
