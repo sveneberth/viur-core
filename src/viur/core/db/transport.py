@@ -12,6 +12,7 @@ from .types import Entity, Key, QueryDefinition, SortOrder
 datastore.helpers.key_from_protobuf = key_from_protobuf
 datastore.helpers.entity_from_protobuf = entity_from_protobuf
 
+print("INIT CLIENT " *5)
 __client__ = datastore.Client()
 
 

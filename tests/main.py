@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
+import os
 import pathlib
+import pprint
 import sys
 import unittest
 from unittest import mock
@@ -19,19 +21,28 @@ def monkey_patch():
     # Skip the skeleton folder check
     sys.viur_doc_build = True
 
+    if hasattr(self, "testbed"):
+        print("SKIP monkey patching " * 5)
+        return
+
+    print("MONKEY PATCHING "*5)
+
     # First, create an instance of the Testbed class.
     self.testbed = testbed.Testbed()
     # Then activate the testbed, which will allow you to use
     # service stubs.
     self.testbed.activate()
+    # self.testbed.activate(use_datastore_emulator=True)
     # Next, declare which service stubs you want to use.
     # self.testbed.init_datastore_v3_stub()
     # self.testbed.init_memcache_stub()
     self.testbed.init_all_stubs()
 
+    # pprint.pprint(os.environ)
+
     # There's not testbed for google.auth, so we need to mock this by our own
     import google.auth
-    google.auth.default = mock.Mock(return_value=(mock.Mock(), "unitestapp"))
+    google.auth.default = mock.Mock(return_value=(mock.Mock(), os.getenv("GOOGLE_CLOUD_PROJECT")))
 
     """
     MOCK_MODULES = (

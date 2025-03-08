@@ -12,6 +12,9 @@ class TestDb(unittest.TestCase):
 
         entity = db.Entity(db.Key("foo", "bar"))
         entity["baz"] = 123
+        print(entity.key)
+        print(f"{entity.key=}")
+        print(f"{entity.key.project=}")
         db.Put(entity)
 
         query = db.Query("foo").run(100)
