@@ -1,4 +1,3 @@
-import unittest
 from abstract import ViURTestCase
 
 LARGE_INT = 123_465 * 10 ** 12

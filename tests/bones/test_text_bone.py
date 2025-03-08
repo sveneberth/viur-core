@@ -1,7 +1,6 @@
-import unittest
-from abstract import ViURTestCase
-
 import mock
+
+from abstract import ViURTestCase
 
 
 class TestTextBone_fromClient(ViURTestCase):

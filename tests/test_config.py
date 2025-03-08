@@ -1,5 +1,5 @@
 import types
-import unittest
+
 from abstract import ViURTestCase
 
 OLD_MEMBERS = [
