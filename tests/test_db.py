@@ -1,12 +1,7 @@
-import types
-import unittest
+from abstract import ViURTestCase
 
-class TestDb(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        from main import monkey_patch
-        monkey_patch()
 
+class TestDb(ViURTestCase):
     def test_put(self):
         from viur.core import db
 

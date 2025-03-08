@@ -1,122 +1,12 @@
 #!/usr/bin/env python3
-import os
 import pathlib
-import pprint
 import sys
 import unittest
-from unittest import mock
-
-from google.appengine.ext import testbed
 
 # top_level_dir is the parent-folder of "tests" and "core"
 tld = pathlib.Path(__file__).resolve().parent.parent
 
-self = type("tmp", (object,), {})
-
-
-def monkey_patch():
-    """Monkey patch libs to work without google cloud environment"""
-    import sys
-
-    # Skip the skeleton folder check
-    sys.viur_doc_build = True
-
-    if hasattr(self, "testbed"):
-        print("SKIP monkey patching " * 5)
-        return
-
-    print("MONKEY PATCHING "*5)
-
-    # First, create an instance of the Testbed class.
-    self.testbed = testbed.Testbed()
-    # Then activate the testbed, which will allow you to use
-    # service stubs.
-    self.testbed.activate()
-    # self.testbed.activate(use_datastore_emulator=True)
-    # Next, declare which service stubs you want to use.
-    # self.testbed.init_datastore_v3_stub()
-    # self.testbed.init_memcache_stub()
-    self.testbed.init_all_stubs()
-
-    # pprint.pprint(os.environ)
-
-    # There's not testbed for google.auth, so we need to mock this by our own
-    import google.auth
-    google.auth.default = mock.Mock(return_value=(mock.Mock(), os.getenv("GOOGLE_CLOUD_PROJECT")))
-
-    """
-    MOCK_MODULES = (
-        "google.appengine.api",
-        "google.auth.default",
-        "google.auth",
-        "google.cloud.exceptions",
-        "google.cloud.logging_v2",
-        "google.cloud.logging.resource",
-        "google.cloud.logging",
-        "google.cloud.tasks_v2.services.cloud_tasks.transports",
-        "google.cloud.tasks_v2.services",
-        "google.cloud.tasks_v2",
-        "google.cloud",
-        "google.oauth2",
-        "google.oauth2.service_account",
-        "google.protobuf",
-        "google",
-    )
-
-    for mod_name in MOCK_MODULES:
-        sys.modules[mod_name] = mock.Mock()
-
-    import google
-    google.auth.default = mock.Mock(return_value=(mock.Mock(), "unitestapp"))
-
-    import logging
-    class NoopHandler(logging.Handler):
-        def __init__(self, *args, **kwargs):
-            super().__init__(level=kwargs.get("level", logging.NOTSET))
-
-        transport = mock.Mock()
-        resource = mock.Mock()
-        labels = mock.Mock()
-
-    sys.modules["google.cloud.logging.handlers"] = tmp = mock.Mock()
-    tmp.CloudLoggingHandler = NoopHandler
-
-    sys.modules["google.cloud.logging_v2.handlers.handlers"] = tmp = mock.Mock()
-    tmp.EXCLUDED_LOGGER_DEFAULTS = []
-
-    sys.modules["google.cloud.datastore"] = mock.Mock()
-    sys.modules["google.cloud._helpers"] = mock.Mock()
-
-    os.environ["GAE_VERSION"] = "v42"
-    os.environ["GAE_ENV"] = "unittestenv"
-
-    original_cwd = os.getcwd()
-
-    # top_level_dir is the parent-folder of "tests" and "core"
-    tld = pathlib.Path(__file__).resolve().parent.parent
-
-    # Change the current working dir to the parent of viur/core
-    # Otherwise the core fails on skeleton.searchPath validation
-    os.chdir(pathlib.Path(__file__).resolve().parent.parent.parent)
-
-    # Create and register a dummy module as ViUR namespace
-    m = ModuleType("viur")
-    sys.modules[m.__name__] = m
-
-    # Import the ViUR-core into the viur package
-    spec = importlib.util.spec_from_file_location("viur.core", f"{tld}/src/viur/core/__init__.py")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-
-    Change back the cwd for the unittests
-    os.chdir(original_cwd)
-    """
-
-
 if __name__ == "__main__":
-    monkey_patch()
-
     # initialize the test suite
     loader = unittest.TestLoader()
     suite = loader.discover("tests", top_level_dir=str(tld))
