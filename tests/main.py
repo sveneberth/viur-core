@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-import importlib.util
-import os
 import pathlib
 import sys
 import unittest
-from types import ModuleType
 from unittest import mock
 
 from google.appengine.ext import testbed
@@ -12,8 +9,8 @@ from google.appengine.ext import testbed
 # top_level_dir is the parent-folder of "tests" and "core"
 tld = pathlib.Path(__file__).resolve().parent.parent
 
-
 self = type("tmp", (object,), {})
+
 
 def monkey_patch():
     """Monkey patch libs to work without google cloud environment"""
@@ -32,9 +29,9 @@ def monkey_patch():
     # self.testbed.init_memcache_stub()
     self.testbed.init_all_stubs()
 
+    # There's not testbed for google.auth, so we need to mock this by our own
     import google.auth
     google.auth.default = mock.Mock(return_value=(mock.Mock(), "unitestapp"))
-
 
     """
     MOCK_MODULES = (
