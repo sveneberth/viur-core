@@ -8,7 +8,7 @@ import typing as t
 
 from jinja2 import ChoiceLoader, Environment, FileSystemLoader, Template
 
-from viur.core import conf, current, db, errors, securitykey
+from viur.core import conf, current, db, errors, securitykey, utils
 from viur.core.bones import *
 from viur.core.i18n import LanguageWrapper, TranslationExtension
 from viur.core.skeleton import SkelList, SkeletonInstance
@@ -488,15 +488,10 @@ class Render(AbstractRenderer):
         if len(content) == 1:
             content.insert(0, "")  # add empty subject
 
-        if isinstance(skel, SkeletonInstance):
-            skel.renderPreparation = None
-
-        elif isinstance(skel, list):
-            for x in skel:
-                if isinstance(x, SkeletonInstance):
-                    x.renderPreparation = None
+        utils.set_render_preparation(skel, None, True)
 
         return content[0], os.linesep.join(content[1:]).lstrip()
+
 
     def getEnv(self) -> Environment:
         """

@@ -130,6 +130,27 @@ def ensure_iterable(
     return obj,  # return a tuple with the obj
 
 
+def set_render_preparation(obj: t.Any, render_preparation: t.Callable | None, recursive: bool = True):
+    from viur.core.skeleton import SkeletonInstance # Avoid partial import
+    if isinstance(obj, SkeletonInstance):
+        obj.renderPreparation = render_preparation
+        if not recursive:
+            return
+        for bone, value in obj.items(True):
+            set_render_preparation(value, render_preparation, recursive)
+
+    elif isinstance(obj, dict):
+        for key, value in obj.items():
+            set_render_preparation(value, render_preparation, recursive)
+
+    elif isinstance(obj, list):
+        for x in obj:
+            set_render_preparation(x, render_preparation, recursive)
+
+    else:
+        logging.warning(f"NotImplemented or Literal: {type(obj)} {obj=}")
+
+
 # DEPRECATED ATTRIBUTES HANDLING
 __UTILS_CONF_REPLACEMENT = {
     "projectID": "viur.instance.project_id",
