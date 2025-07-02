@@ -48,7 +48,7 @@ __all__ = [
 
 CACHE_KINDNAME: t.Final[str] = "viur-cache"
 
-MAX_PROPERTY_SIZE: t.Final[int] = 1024 ** 2 - 89
+MAX_PROPERTY_SIZE: t.Final[int] = 1_000_000
 """Maximal possible property size in a datastore entity"""
 
 
@@ -309,7 +309,12 @@ class ResponseCache(t.Generic[Args, Value]):
             cache_key = this.get_string_from_args(cache_args)
             logger.debug(f"{cache_key=}")
 
-            entity = db.Get(db.Key(CACHE_KINDNAME, cache_key))
+            cache_data = db.cache.get(db.Key(CACHE_KINDNAME, cache_key))
+            entity = None
+            if cache_data:
+                cache_data_key = list(cache_data.keys())[0]
+                entity = db.Entity(db.Key(cache_data_key))
+                entity |= cache_data[cache_data_key]
             cache_status = "MISS"
             if entity:
                 if not this.max_cache_time or utils.utcNow() <= entity["creationdate"] + this.max_cache_time:
@@ -398,8 +403,8 @@ class ResponseCache(t.Generic[Args, Value]):
             entity.exclude_from_indexes.add("data")
             entity.exclude_from_indexes.add("header")
             entity["header"] = headers
-            entity = db.fixUnindexableProperties(entity)
-            db.Put(entity)
+            entity = db.fix_unindexable_properties(entity)
+            db.cache.put(entity)
 
             logger.debug("This request was a cache-miss. Cache has been updated.")
             current_request.response.headers["X-Cache-Status"] = cache_status
@@ -490,6 +495,8 @@ class ResponseCache(t.Generic[Args, Value]):
                 res["__user"] = user["key"] if user else None
             elif self.user_sensitive == UserSensitive.GUEST_ONLY:
                 pass  # We don't need to store, that we're a guest.
+            elif self.user_sensitive == UserSensitive.IGNORE:
+                pass  # We don't need to store, that we're a guest. ?
             else:
                 raise ValueError(f"Invalid value {self.user_sensitive=}")
 
@@ -535,7 +542,7 @@ class ResponseCache(t.Generic[Args, Value]):
 
 
 @tasks.CallDeferred
-def flushCache(prefix: str = None, key: db.Key | None = None, kind:  str | None = None):
+def flushCache(prefix: str = None, key: db.Key | None = None, kind: str | None = None):
     """
         Flushes the cache. Its possible the flush only a part of the cache by specifying
         the path-prefix. The path is equal to the url that caused it to be cached (eg /page/view) and must be one
@@ -581,4 +588,3 @@ def flushCache(prefix: str = None, key: db.Key | None = None, kind:  str | None 
         for item in items:
             logging.info(f"""Deleted cache entry {item["path"]!r}""")
             db.delete(item.key)
-

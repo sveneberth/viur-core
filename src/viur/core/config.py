@@ -852,7 +852,7 @@ class Conf(ConfigType):
     db_engine: str = "viur.datastore"
     """Database engine module"""
 
-    db_memcache_client: Client | None = None
+    db_memcache_client: Client | None = Client()
     """If set, ViUR cache data for the db.get in the Memcache for faster access."""
 
     db_create_access_log: bool = True

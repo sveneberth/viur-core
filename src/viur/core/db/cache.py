@@ -1,3 +1,5 @@
+from google.appengine.ext.testbed import Testbed
+
 import logging
 import sys
 import time
@@ -34,7 +36,6 @@ __all__ = [
     "get",
     "put",
     "delete",
-    "LocalMemcache",
 ]
 
 
@@ -133,36 +134,7 @@ def check_for_memcache() -> bool:
     if conf.db_memcache_client is None:
         logging.warning(f"""conf.db_memcache_client is 'None'. It can not be used.""")
         return False
+
     return True
 
 
-class LocalMemcache:
-    def __init__(self):
-        self._data = {}
-
-    def get_multi(self, keys: t.List[str], namespace: str = MEMCACHE_NAMESPACE):
-        self._data.setdefault(namespace, {})
-        res = {}
-        for key in keys:
-            if (data := self._data[namespace].get(key)) is not None:
-                if data["__lifetime__"]["last_seen"] + data["__lifetime__"]["timeout"] > time.time():
-                    res[key] = data["__data__"]
-                else:
-                    self._data[namespace].pop(key)
-        return res
-
-    def set_multi(self, data: t.Dict[str, t.Any], namespace: str = MEMCACHE_NAMESPACE, time: int = MEMCACHE_TIMEOUT):
-        self._data.setdefault(namespace, {})
-        for key, value in data.items():
-            self._data[namespace][key] = {}
-            self._data[namespace][key]["__data__"] = value
-            self._data[namespace][key]["__lifetime__"] = {"timeout": time, "last_seen": time.time()}
-
-    def delete_multi(self, keys: t.List[str] = [], namespace: str = MEMCACHE_NAMESPACE):
-        self._data.setdefault(namespace, {})
-        for key in keys:
-            if (data := self._data[namespace].get(key)) is not None:
-                self._data[namespace].pop(key)
-
-    def flush_all(self):
-        self._data.clear()
