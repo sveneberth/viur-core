@@ -1,8 +1,5 @@
-from google.appengine.ext.testbed import Testbed
-
 import logging
 import sys
-import time
 import typing as t
 
 from viur.core.config import conf
@@ -20,11 +17,11 @@ MEMCACHE_MAX_SIZE = 1_000_000
     ..  code-block:: python
     # Example
     from viur.core import conf
-    if not conf.instance.is_dev_server:
-        from google.appengine.api.memcache import Client
-        conf.db_memcache_client = Client()
-    else:
-        conf.db_memcache_client = db.cache.LocalMemcache()
+    from google.appengine.ext.testbed import Testbed
+    if conf.instance.is_dev_server:
+        testbed = Testbed()
+        testbed.activate()
+        testbed.init_memcache_stub()
 
 """
 
