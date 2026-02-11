@@ -66,6 +66,9 @@ testing = [
     "coverage",
     "coverage-badge",
 ]
+linting = [
+    "pycodestyle",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -84,3 +87,5 @@ Changelog = "https://github.com/viur-framework/viur-core/blob/main/CHANGELOG.md"
 
 [project.scripts]
 viur-migrate = "viur.core.scripts.viur_migrate:main"
+pep8check = "bash -c \"git diff -U0 | pycodestyle --diff --show-source\""
+pep8check_main = "bash -c \"git diff main..HEAD -U0 | pycodestyle --diff --show-source\""
