@@ -579,6 +579,12 @@ class RelationalBone(BaseBone):
         for value in values:
             __update_relation(db.Entity(db.Key("viur-relations", parent=key)), value)
 
+        # Call postSavedHandler on UsingSkel (RelSkel)
+        if self.using:
+            for idx, lang, value in self.iter_bone_value(skel, boneName):
+                for bone_name, bone in value["rel"].items():
+                    bone.postSavedHandler(value["rel"], bone_name, key)
+
     def postDeletedHandler(self, skel: "SkeletonInstance", boneName: str, key: db.Key) -> None:
         """
         Handle relational updates after a skeleton is deleted.
